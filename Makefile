@@ -7,7 +7,9 @@ BUILD_DIR = bin
 all: $(TARGET)
 
 $(TARGET): $(OBJS) | $(BUILD_DIR)
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) -lm -lGL -lGLU -lglut
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) -lm -lGL -lGLU -lglfw -lX11 -lpthread -lXrandr 
+	# -lXi -ldl
+
 
 $(BUILD_DIR)/sim.o: sim.c sim.h | $(BUILD_DIR)
 	$(CC) $(CFLAGS) -c sim.c -o $(BUILD_DIR)/sim.o
