@@ -1,8 +1,11 @@
 #include "sim.h"
-#include <GL/gl.h>
+/** GLAD BEFORE GLFW **/
+#include <glad/glad.h>
+/** GLAD BEFORE GLFW **/
 #include <GLFW/glfw3.h>
 #include <math.h>
 #include <stdio.h>
+
 #define pi 3.14
 
 int main(int argc, char *argv[]) {
@@ -20,6 +23,14 @@ int main(int argc, char *argv[]) {
   }
 
   glfwMakeContextCurrent(window);
+
+  if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+    perror("glad init failed\n");
+    glfwTerminate();
+    return -1;
+  }
+
+  glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 
   while (!glfwWindowShouldClose(window)) {
 
