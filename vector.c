@@ -50,3 +50,12 @@ vec2 project(const vec2 vec, const vec2 axis) {
   float projection_scalar = dot(vec, axis) / magnitude_squared;
   return mult(projection_scalar, vec);
 }
+
+vec2 transform(const mat3 m, const vec2 vec) {
+  vec2 result;
+
+  result.x = m.m[0][0] * vec.x + m.m[0][1] * vec.y + m.m[0][2];
+  result.y = m.m[1][0] * vec.x + m.m[1][1] * vec.y + m.m[1][2];
+
+  return result;
+}

@@ -1,6 +1,7 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 #define PI 3.14159265
+#include "matrix.h"
 
 typedef struct vector_2d {
   float x;
@@ -28,5 +29,6 @@ vec2 rotate(const vec2 vec, float angle);
 vec2 project(const vec2 vec, const vec2 axis);
 float distance(const vec2 a, const vec2 b);
 float distance_squared(const vec2 a, const vec2 b);
+vec2 transform(const mat3 m, const vec2 vec);
 
 #endif // VECTOR_H
