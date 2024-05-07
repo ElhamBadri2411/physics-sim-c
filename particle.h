@@ -9,6 +9,7 @@ typedef struct particle_2d {
   vec2 velocity;
   vec2 acceleration;
   float mass;
+  float radius;
 } Particle;
 
 void init_particle(Particle *p, vec2 position, vec2 velocity, float mass);
