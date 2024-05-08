@@ -2,11 +2,12 @@
 /** GLAD BEFORE GLFW **/
 #include <glad/glad.h>
 /** GLAD BEFORE GLFW **/
+#include "particle.h"
+#include "particle_system.h"
+#include "vector.h"
 #include <GLFW/glfw3.h>
 #include <math.h>
 #include <stdio.h>
-
-#define pi 3.14
 
 int main(int argc, char *argv[]) {
   if (!glfwInit()) {
@@ -32,11 +33,18 @@ int main(int argc, char *argv[]) {
 
   glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 
+  ParticleSystem system;
+  init_particle_system(&system, 100);
+  Particle p;
+
+  init_particle(&p, new_vec2(10, 10), new_vec2(10, 10), 10);
+
+  // adding some particles
+  add_particle(&system, p);
+
   while (!glfwWindowShouldClose(window)) {
 
     glClear(GL_COLOR_BUFFER_BIT);
-
-    // DRAW HERE
 
     glfwSwapBuffers(window);
     glfwPollEvents();
