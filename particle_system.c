@@ -12,6 +12,24 @@ void init_particle_system(ParticleSystem *system, int capacity) {
 
 void resolve_collision(Particle *p1, Particle *p2) {
   // TODO
+  vec2 normal = sub(p2->position, p1->position);
+  vec2 normalizedNormal = normalized(normal);
+
+  // relative velocity
+  vec2 relativeVelocity = sub(p2->velocity, p1->velocity);
+  float velocityAlongNormal = dot(relativeVelocity, normalizedNormal);
+
+  // restitution (e.g., 1 for perfectly elastic collision)
+  float restitution = 1.0;
+
+  // impulse scalar
+  float impulseScalar = -(1 + restitution) * velocityAlongNormal;
+  impulseScalar /= (1 / p1->mass + 1 / p2->mass);
+
+  // apply impulse
+  vec2 impulse = mult(impulseScalar, normalizedNormal);
+  p1->velocity = sub(p1->velocity, mult(1 / p1->mass, impulse));
+  p2->velocity = add(p2->velocity, mult(1 / p2->mass, impulse));
 }
 
 void update(ParticleSystem *system, float dt) {

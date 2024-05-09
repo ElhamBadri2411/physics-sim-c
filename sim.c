@@ -4,6 +4,7 @@
 /** GLAD BEFORE GLFW **/
 #include "particle.h"
 #include "particle_system.h"
+#include "shader_utils.h"
 #include "vector.h"
 #include <GLFW/glfw3.h>
 #include <math.h>
@@ -41,9 +42,10 @@ int main(int argc, char *argv[]) {
 
   // adding some particles
   add_particle(&system, p);
+  GLuint shader_program = loadShader("./shader.vert", "./shader.frag");
 
   while (!glfwWindowShouldClose(window)) {
-
+    glUseProgram(shader_program);
     glClear(GL_COLOR_BUFFER_BIT);
 
     glfwSwapBuffers(window);

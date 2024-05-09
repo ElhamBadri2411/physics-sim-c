@@ -51,6 +51,12 @@ vec2 project(const vec2 vec, const vec2 axis) {
   return mult(projection_scalar, vec);
 }
 
+float distance(const vec2 a, const vec2 b) { return length(sub(a, b)); }
+float distance_squared(const vec2 a, const vec2 b) {
+  vec2 diff = sub(a, b);
+  return dot(diff, diff);
+}
+
 vec2 transform(const mat3 m, const vec2 vec) {
   vec2 result;
 
