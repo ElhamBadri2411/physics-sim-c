@@ -36,17 +36,51 @@ int main(int argc, char *argv[]) {
 
   ParticleSystem system;
   init_particle_system(&system, 100);
-  Particle p;
+  Particle p, p1, p2, p3;
 
   init_particle(&p, new_vec2(10, 10), new_vec2(10, 10), 10);
+  init_particle(&p1, new_vec2(10, 10), new_vec2(10, 10), 10);
+  init_particle(&p2, new_vec2(10, 10), new_vec2(10, 10), 10);
+  init_particle(&p3, new_vec2(10, 10), new_vec2(10, 10), 10);
 
   // adding some particles
   add_particle(&system, p);
+  add_particle(&system, p1);
+  add_particle(&system, p2);
+  add_particle(&system, p3);
   GLuint shader_program = loadShader("./shader.vert", "./shader.frag");
+
+  GLuint vao;
+  GLuint vbo;
+
+  glGenVertexArrays(1, &vao);
+  glGenBuffers(1, &vbo);
+
+  glBindVertexArray(vao);
+  glBindBuffer(GL_ARRAY_BUFFER, vbo);
+  glBufferData(GL_ARRAY_BUFFER, system.size * sizeof(Particle),
+               system.particles, GL_DYNAMIC_DRAW);
+
+  // Position
+  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Particle),
+                        (void *)offsetof(Particle, position));
+  glEnableVertexAttribArray(0);
+
+  // Radius
+  glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, sizeof(Particle),
+                        (void *)offsetof(Particle, radius));
+  glEnableVertexAttribArray(1);
+
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
+  glBindVertexArray(0);
 
   while (!glfwWindowShouldClose(window)) {
     glUseProgram(shader_program);
     glClear(GL_COLOR_BUFFER_BIT);
+
+    glBindVertexArray(vao);
+    glDrawArrays(GL_POINTS, 0, system.size); // Draw the particles
+    glBindVertexArray(0);
 
     glfwSwapBuffers(window);
     glfwPollEvents();
