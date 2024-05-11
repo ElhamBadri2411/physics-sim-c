@@ -2,6 +2,7 @@
 /** GLAD BEFORE GLFW **/
 #include <glad/glad.h>
 /** GLAD BEFORE GLFW **/
+#include "graphics_utils.h"
 #include "particle.h"
 #include "particle_system.h"
 #include "shader_utils.h"
@@ -73,6 +74,14 @@ int main(int argc, char *argv[]) {
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   glBindVertexArray(0);
+
+  // projection matrix
+
+  float projection_matrix[16];
+  ortho(0.0f, 800.0f, 800.0f, 0.0f, -1.0f, 1.0f, projection_matrix);
+  int projLoc = glGetUniformLocation(shader_program, "projection");
+  glUseProgram(shader_program);
+  glUniformMatrix4fv(projLoc, 1, GL_FALSE, projection_matrix);
 
   while (!glfwWindowShouldClose(window)) {
     glUseProgram(shader_program);
